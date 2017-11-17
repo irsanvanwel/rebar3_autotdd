@@ -3,6 +3,9 @@ rebar_autotdd_plugin
 
 A rebar3 plugin for auto running compile on source file change reloading modules in the shell.
 
+### This is a fork of rebar3_auto
+
+
 Prerequisite
 -----
 On Linux you need to install inotify-tools.

@@ -4,7 +4,7 @@
 %% `~/config/.rebar3/rebar.config`:
 %%
 %% ```
-%% {plugins, [rebar3_autotdd]}.'''
+%% {plugins, [rebar3_auto]}.'''
 %%
 %% Then just call your plugin directly in an existing application:
 %%
@@ -13,7 +13,7 @@
 %% ===> Fetching rebar_auto_plugin
 %% ===> Compiling rebar_auto_plugin'''
 %%
--module(rebar3_autotdd).
+-module(rebar3_auto).
 -behaviour(provider).
 
 -export([init/1
@@ -35,7 +35,7 @@ init(State) ->
             {module, ?MODULE},        % The module implementation of the task
             {bare, true},             % The task can be run by the user, always true
             {deps, ?DEPS},            % The list of dependencies
-            {example, "rebar3 autotdd"}, % How to use the plugin
+            {example, "rebar3 auto"}, % How to use the plugin
             {opts, [{config, undefined, "config", string,
                      "Path to the config file to use. Defaults to "
                      "{shell, [{config, File}]} and then the relx "
@@ -94,9 +94,12 @@ auto() ->
                             % sleep here so messages can bottle up
                             % or we can flush after compile?
                             timer:sleep(200),
-                            flush(),
+                            flush(),           
+                            io:format("\n\e[45mAUTO-TDD===============\nRECOMPILING\n=======================\e[40m\n"),                 
                             rebar_agent:do(compile),
-                            rebar_agent:do(eunit)
+                            io:format("\n\e[44mAUTO-TDD===============\nRUNNING UNIT TESTS\n=======================\e[40m\n"),                         
+                            rebar_agent:do(eunit),       
+                            io:format("\n\e[42mAUTO-TDD===============\nDONE\n=======================\e[40m\n")              
                     end;
                 _ -> pass
             end
